@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace AMG.App.API.Controllers
 {
     [Route("[controller]")]
+    [ApiController]
     public class BaseController : Controller
     {
         protected UserService userService;
