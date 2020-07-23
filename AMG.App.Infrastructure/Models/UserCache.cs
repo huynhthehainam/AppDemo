@@ -1,3 +1,6 @@
+using System.Linq;
+using System;
+using System.Security.Claims;
 namespace AMG.App.Infrastructure.Models
 {
     public class UserCache
@@ -9,6 +12,11 @@ namespace AMG.App.Infrastructure.Models
         {
             this.Id = id;
             this.Email = email;
+        }
+        public UserCache(ClaimsPrincipal user)
+        {
+            Id = Convert.ToInt64(user.Claims.FirstOrDefault(ww => ww.Type == "Id").Value);
+            Email = Convert.ToString(user.Claims.FirstOrDefault(ww => ww.Type == "Email").Value);
         }
     }
 }

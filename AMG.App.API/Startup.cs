@@ -18,6 +18,8 @@ using AMG.App.Infrastructure.Models;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Text;
+using AMG.App.API.Middlewares;
+using Microsoft.AspNetCore.HttpOverrides;
 
 namespace AMG.App.API
 {
@@ -51,10 +53,16 @@ namespace AMG.App.API
             services.AddScoped<UserService, UserService>();
             services.AddScoped<AuthService, AuthService>();
             services.AddScoped<JWTService, JWTService>();
+
+
             var authSettingsSection = Configuration.GetSection("AuthSettings");
             services.Configure<AuthSetting>(authSettingsSection);
             var appSettings = authSettingsSection.Get<AuthSetting>();
             var key = Encoding.ASCII.GetBytes(appSettings.AuthSecret);
+            services.Configure<ForwardedHeadersOptions>(options =>
+            {
+                options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+            });
             services.AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -73,6 +81,8 @@ namespace AMG.App.API
                 };
             });
             services.AddMvcCore().AddAuthorization();
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -84,10 +94,12 @@ namespace AMG.App.API
             }
 
             app.UseHttpsRedirection();
-
+            app.UseStatusCodePages();
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseMiddleware<AuthMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {
