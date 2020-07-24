@@ -25,7 +25,7 @@ namespace AMG.App.API.Migrations
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "Email", "IsAdmin", "Password" },
-                values: new object[] { 1L, "mail@mail.com", false, "$AMGHash$V1$10000$nOTzpapiRPK/run1jjAFwiK3wPIzFVtqehDaEFDzuMpU4ux40BglAE6FlmU4lrZaqO04DUYmtyk=" });
+                values: new object[] { 1L, "mail@mail.com", true, "$AMGHash$V1$10000$gahvEe7sHg7oHeA8/GEPd4jGX3fUyPaTeu8dwsItxRUWkrfoRhntvXXg/hrU26T8c5M5ambZHPw=" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_Email",

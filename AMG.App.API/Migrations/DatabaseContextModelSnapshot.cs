@@ -46,8 +46,8 @@ namespace AMG.App.API.Migrations
                         {
                             Id = 1L,
                             Email = "mail@mail.com",
-                            IsAdmin = false,
-                            Password = "$AMGHash$V1$10000$nOTzpapiRPK/run1jjAFwiK3wPIzFVtqehDaEFDzuMpU4ux40BglAE6FlmU4lrZaqO04DUYmtyk="
+                            IsAdmin = true,
+                            Password = "$AMGHash$V1$10000$gahvEe7sHg7oHeA8/GEPd4jGX3fUyPaTeu8dwsItxRUWkrfoRhntvXXg/hrU26T8c5M5ambZHPw="
                         });
                 });
 #pragma warning restore 612, 618

@@ -15,7 +15,9 @@ namespace AMG.App.API.Permissions
         {
             var currentUser = new UserCache(context.HttpContext.User);
             if (currentUser != null)
+            {
                 return currentUser.IsAdmin;
+            }
             return false;
         }
     }

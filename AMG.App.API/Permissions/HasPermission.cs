@@ -23,7 +23,6 @@ namespace AMG.App.API.Permissions
             List<IPermission> permissions = new List<IPermission>();
             foreach (var permissionType in permissionTypes)
             {
-                Console.WriteLine(permissionType.ToString());
                 if (typeof(IPermission).IsAssignableFrom(permissionType))
                 {
                     permissions.Add((IPermission)Activator.CreateInstance(permissionType));

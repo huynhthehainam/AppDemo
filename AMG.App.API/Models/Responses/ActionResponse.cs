@@ -12,21 +12,50 @@ namespace AMG.App.API.Models.Responses
     }
     public class ActionResponse
     {
-        public string Type { get; set; }
-        public string Title { get; set; }
-        public int StatusCode { get; set; } = 200;
-        public object Data { get; set; }
-        public OrderedDictionary Errors { get; set; }
-        private List<ErrMessage> errMessages = new List<ErrMessage>();
-        private void EnsureErrorsNotNull()
+        public string Type
         {
-            if (Errors == null)
+            get
             {
-                Errors = new OrderedDictionary();
-                Type = "Detect error by AMIT";
-                Title = "One or more validation errors occurred.";
+                if (errMessages.Count > 0)
+                    return "Detect error by AMIT";
+                return null;
             }
         }
+        public string Title
+        {
+            get
+            {
+                if (errMessages.Count > 0)
+                    return "One or more validation errors occurred.";
+                return null;
+            }
+        }
+        public int StatusCode
+        {
+            get
+            {
+                if (errMessages.Count > 0)
+                    return 400;
+                return 200;
+            }
+        }
+        public object Data { get; set; }
+        public OrderedDictionary Errors
+        {
+            get
+            {
+                if (errMessages.Count == 0)
+                    return null;
+                OrderedDictionary errors = new OrderedDictionary();
+
+                foreach (var errMessage in errMessages)
+                {
+                    errors.Add(errMessage.Name, errMessage.Errs);
+                }
+                return errors;
+            }
+        }
+        private List<ErrMessage> errMessages = new List<ErrMessage>();
         private ErrMessage GetErrMessage(string name)
         {
             ErrMessage errMessage = errMessages.FirstOrDefault(dd => dd.Name == name);
@@ -39,43 +68,37 @@ namespace AMG.App.API.Models.Responses
         }
         public void AddMessageErr(string name, string message)
         {
-            StatusCode = 400;
             ErrMessage errMessage = GetErrMessage(name);
             errMessage.Errs.Add(message);
         }
         public void AddRequirementErr(string name)
         {
-            StatusCode = 400;
             ErrMessage errMessage = GetErrMessage(name);
             errMessage.Errs.Add($"{name} required");
         }
         public void AddNotAllowedErr()
         {
-            StatusCode = 400;
+
             ErrMessage errMessage = GetErrMessage("Permission");
             errMessage.Errs.Add("Denied");
         }
         public void AddNotCreatedErr(string name)
         {
-            StatusCode = 400;
             ErrMessage errMessage = GetErrMessage(name);
             errMessage.Errs.Add($"Not found");
         }
         public void AddExpiredErr(string name)
         {
-            StatusCode = 400;
             ErrMessage errMessage = GetErrMessage(name);
             errMessage.Errs.Add($"Exceeds expiring time");
         }
         public void AddInvalidErr(string name)
         {
-            StatusCode = 400;
             ErrMessage errMessage = GetErrMessage(name);
             errMessage.Errs.Add($"Invalid");
         }
         public void AddExistedErr(string name)
         {
-            StatusCode = 400;
             ErrMessage errMessage = GetErrMessage(name);
             errMessage.Errs.Add($"Already exists");
         }

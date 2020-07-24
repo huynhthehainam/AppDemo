@@ -23,7 +23,7 @@ namespace AMG.App.DAL.Databases
 
             //Seeding
 
-            modelBuilder.Entity<User>().HasData(new User { Email = "mail@mail.com", Password = HashHelper.Hash("123"), Id = 1 });
+            modelBuilder.Entity<User>().HasData(new User { Email = "mail@mail.com", Password = HashHelper.Hash("123"), Id = 1, IsAdmin = true });
         }
     }
 }
