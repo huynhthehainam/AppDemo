@@ -14,6 +14,9 @@ using AMG.App.API.Middlewares;
 using Microsoft.AspNetCore.HttpOverrides;
 using AMG.App.Infrastructure.Models.Settings;
 using AMG.App.API.Services;
+using Microsoft.Extensions.FileProviders;
+using Microsoft.AspNetCore.Http;
+using System.IO;
 
 namespace AMG.App.API
 {
@@ -90,6 +93,23 @@ namespace AMG.App.API
             {
                 app.UseDeveloperExceptionPage();
             }
+            if (!Directory.Exists(FolderPath.StaticFilePath))
+            {
+                Directory.CreateDirectory(FolderPath.StaticFilePath);
+            }
+            if (!Directory.Exists(Path.Combine(FolderPath.StaticFilePath, FolderPath.ImagePath)))
+            {
+                Directory.CreateDirectory(Path.Combine(FolderPath.StaticFilePath, FolderPath.ImagePath));
+            }
+            if (!Directory.Exists(Path.Combine(FolderPath.StaticFilePath, FolderPath.TemplatePath)))
+            {
+                Directory.CreateDirectory(Path.Combine(FolderPath.StaticFilePath, FolderPath.TemplatePath));
+            }
+            app.UseStaticFiles(new StaticFileOptions()
+            {
+                FileProvider = new PhysicalFileProvider(FolderPath.StaticFilePath),
+                RequestPath = new PathString("/staticfiles"),
+            });
 
             app.UseHttpsRedirection();
             app.UseStatusCodePages();

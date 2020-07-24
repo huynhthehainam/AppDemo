@@ -16,11 +16,15 @@ namespace AMG.App.API.Controllers
         [Route("profile")]
         [HttpGet]
         [Authorize]
-        [HasPermission(typeof(IsAdminUser), typeof(IsVIPUser), typeof(IsProjectOwner))]
         public IActionResult Profile()
         {
             ActionResponse actionResponse = new ActionResponse();
             actionResponse.Data = CurrentUser;
+            return actionResponse.ToIActionResult();
+        }
+        public IActionResult Update(){
+            ActionResponse actionResponse = new ActionResponse();
+
             return actionResponse.ToIActionResult();
         }
     }
