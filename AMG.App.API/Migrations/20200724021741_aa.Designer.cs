@@ -9,7 +9,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AMG.App.API.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20200723083305_aa")]
+    [Migration("20200724021741_aa")]
     partial class aa
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -30,6 +30,9 @@ namespace AMG.App.API.Migrations
                     b.Property<string>("Email")
                         .HasColumnType("text");
 
+                    b.Property<bool>("IsAdmin")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("Password")
                         .HasColumnType("text");
 
@@ -45,7 +48,8 @@ namespace AMG.App.API.Migrations
                         {
                             Id = 1L,
                             Email = "mail@mail.com",
-                            Password = "$AMGHash$V1$10000$fSeQsov/BDtqZXv7N62MYqB1HiKfxlR6BD1zJKsfOEFZ7Jwjq/oFWo3k7wtzp3RqzRGCKOUI8rI="
+                            IsAdmin = false,
+                            Password = "$AMGHash$V1$10000$nOTzpapiRPK/run1jjAFwiK3wPIzFVtqehDaEFDzuMpU4ux40BglAE6FlmU4lrZaqO04DUYmtyk="
                         });
                 });
 #pragma warning restore 612, 618

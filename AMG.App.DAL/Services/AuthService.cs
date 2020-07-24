@@ -18,7 +18,7 @@ namespace AMG.App.DAL.Services
         {
             string authUserKey = $"{Key.AuthCacheKey}:{user.Id}";
             distributedCache.Remove(authUserKey);
-            UserCache userCache = new UserCache(user.Id, user.Email);
+            UserCache userCache = new UserCache(user.Id, user.Email, user.IsAdmin);
             distributedCache.SetString(authUserKey, JsonSerializer.Serialize(userCache), cacheEntryOptions);
         }
     }

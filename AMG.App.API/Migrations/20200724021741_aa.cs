@@ -14,7 +14,8 @@ namespace AMG.App.API.Migrations
                     Id = table.Column<long>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Email = table.Column<string>(nullable: true),
-                    Password = table.Column<string>(nullable: true)
+                    Password = table.Column<string>(nullable: true),
+                    IsAdmin = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -23,8 +24,8 @@ namespace AMG.App.API.Migrations
 
             migrationBuilder.InsertData(
                 table: "Users",
-                columns: new[] { "Id", "Email", "Password" },
-                values: new object[] { 1L, "mail@mail.com", "$AMGHash$V1$10000$fSeQsov/BDtqZXv7N62MYqB1HiKfxlR6BD1zJKsfOEFZ7Jwjq/oFWo3k7wtzp3RqzRGCKOUI8rI=" });
+                columns: new[] { "Id", "Email", "IsAdmin", "Password" },
+                values: new object[] { 1L, "mail@mail.com", false, "$AMGHash$V1$10000$nOTzpapiRPK/run1jjAFwiK3wPIzFVtqehDaEFDzuMpU4ux40BglAE6FlmU4lrZaqO04DUYmtyk=" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_Email",

@@ -18,7 +18,6 @@ namespace AMG.App.API.Middlewares
         public async Task Invoke(HttpContext context, JWTService jWTService)
         {
             string authHeader = context.Request.Headers[Key.AuthHeaderKey];
-            Console.WriteLine($"Auth: {authHeader}");
             if (authHeader != null)
             {
                 authHeader = authHeader.Replace(Key.JWTPrefixKey, "").Trim();
@@ -32,7 +31,8 @@ namespace AMG.App.API.Middlewares
                 var claims = new[]{
                     new Claim("Id", user.Id.ToString()),
                     new Claim("Email", user.Email),
-                };
+                    new Claim("IsAdmin", user.IsAdmin.ToString())
+            };
                 var identity = new ClaimsIdentity(claims, "basic");
                 context.User = new ClaimsPrincipal(identity);
             }
