@@ -11,13 +11,14 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.Security.Claims;
 
-namespace AMG.App.DAL.Services
+namespace AMG.App.API.Services
 {
-    public class JWTService : BaseService
+    public class JWTService
     {
-        public JWTService(DatabaseContext context, IDistributedCache distributedCache) : base(context, distributedCache)
+        IDistributedCache distributedCache;
+        public JWTService(IDistributedCache distributedCache)
         {
-
+            this.distributedCache = distributedCache;
         }
         public UserCache GetUserCache(string token)
         {

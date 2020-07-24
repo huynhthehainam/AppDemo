@@ -1,25 +1,19 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using AMG.App.DAL.Databases;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using AMG.App.Infrastructure.Constants;
 using AMG.App.DAL.Services;
-using AMG.App.Infrastructure.Models;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Text;
 using AMG.App.API.Middlewares;
 using Microsoft.AspNetCore.HttpOverrides;
+using AMG.App.Infrastructure.Models.Settings;
+using AMG.App.API.Services;
 
 namespace AMG.App.API
 {
@@ -50,14 +44,18 @@ namespace AMG.App.API
             });
 
 
+
             services.AddScoped<UserService, UserService>();
             services.AddScoped<AuthService, AuthService>();
             services.AddScoped<JWTService, JWTService>();
 
 
             var authSettingsSection = Configuration.GetSection("AuthSettings");
-            services.Configure<AuthSetting>(authSettingsSection);
-            var appSettings = authSettingsSection.Get<AuthSetting>();
+            services.Configure<AuthSettings>(authSettingsSection);
+            services.Configure<EmailSettings>(Configuration.GetSection("EmailSettings"));
+            services.Configure<SmtpSettings>(Configuration.GetSection("SmtpSettings"));
+
+            var appSettings = authSettingsSection.Get<AuthSettings>();
             var key = Encoding.ASCII.GetBytes(appSettings.AuthSecret);
             services.Configure<ForwardedHeadersOptions>(options =>
             {

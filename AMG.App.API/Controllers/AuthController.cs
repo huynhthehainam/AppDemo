@@ -1,11 +1,12 @@
 using System;
 using AMG.App.API.Models.Commands;
 using AMG.App.API.Models.Responses;
+using AMG.App.API.Services;
 using AMG.App.DAL.Models;
 using AMG.App.DAL.Services;
 using AMG.App.Infrastructure.Constants;
 using AMG.App.Infrastructure.Helpers;
-using AMG.App.Infrastructure.Models;
+using AMG.App.Infrastructure.Models.Settings;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Options;
@@ -15,18 +16,18 @@ namespace AMG.App.API.Controllers
     public class AuthController : BaseController
     {
         private JWTService jWTService;
-        private AuthSetting authSetting;
+        private AuthSettings authSettings;
         private AuthService authService;
-        public AuthController(JWTService jWTService, UserService userService, IOptions<AuthSetting> authSetting, AuthService authService) : base(userService)
+        public AuthController(JWTService jWTService, UserService userService, IOptions<AuthSettings> authSettings, AuthService authService) : base(userService)
         {
             this.jWTService = jWTService;
-            this.authSetting = authSetting.Value;
+            this.authSettings = authSettings.Value;
             this.authService = authService;
         }
         private LoginResponse ProcessLogin(User user)
         {
             var accessTokenExpiration = DateTime.Now.AddMinutes(ExpiredTime.AccessTokenExpirationTime);
-            var accessToken = jWTService.GenerateAccessToken(authSetting.AuthSecret, user, accessTokenExpiration);
+            var accessToken = jWTService.GenerateAccessToken(authSettings.AuthSecret, user, accessTokenExpiration);
             var refreshToken = TokenHelper.GenerateToken();
             // authService.RemoveAllRefreshToken(requestIP);
             DistributedCacheEntryOptions cacheEntryOptions = new DistributedCacheEntryOptions

@@ -1,6 +1,7 @@
-using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
-namespace AMG.App.Infrastructure.Models
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace AMG.App.Infrastructure.Models.Data
 {
     public class BaseEntity
     {

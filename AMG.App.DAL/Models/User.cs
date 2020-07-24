@@ -1,4 +1,4 @@
-using AMG.App.Infrastructure.Models;
+using AMG.App.Infrastructure.Models.Data;
 
 namespace AMG.App.DAL.Models
 {

@@ -1,7 +1,6 @@
-using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using AMG.App.DAL.Services;
+using AMG.App.API.Services;
 using AMG.App.Infrastructure.Constants;
 using AMG.App.Infrastructure.Models;
 using Microsoft.AspNetCore.Http;

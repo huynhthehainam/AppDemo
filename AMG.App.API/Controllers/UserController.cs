@@ -16,7 +16,7 @@ namespace AMG.App.API.Controllers
         [Route("profile")]
         [HttpGet]
         [Authorize]
-        [HasPermission(typeof(IsAdminUser), typeof(IsVIPUser))]
+        [HasPermission(typeof(IsAdminUser), typeof(IsVIPUser), typeof(IsProjectOwner))]
         public IActionResult Profile()
         {
             ActionResponse actionResponse = new ActionResponse();
